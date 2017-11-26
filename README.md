@@ -4,7 +4,7 @@ Proof of concept Wagtail StreamFieldPanel that avoids unnecessary rendering of t
 
 ## Usage
 
-Add `smartstream` to `INSTALLED_APPS`. 
+Add `smartstream` to `INSTALLED_APPS`. 
 
 On your `Page` models, substitute `wagtail.wagtailadmin.edit_handlers.StreamFieldPanel` with `smartstream.edit_handlers.StreamFieldPanel`
 
