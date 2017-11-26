@@ -20,34 +20,28 @@ class SmartStreamFieldPanel(BaseStreamFieldPanel):
         for block in cls.block_def.all_blocks():
             if isinstance(block, StreamBlock):
                 for name, child_block in block.child_blocks.items():
-                    obj_id = str(id(child_block))
-                    tpl_id = 'block-tpl-{0}'.format(obj_id)
-                    
-                    if obj_id not in rendered:
+                    if child_block.definition_prefix not in rendered:
                         member_templates.append(
                             (
-                                tpl_id,
+                                child_block.definition_prefix,
                                 mark_safe(escape_script(block.render_list_member(name, child_block.get_default(), '__PREFIX__', '')))
                             )
                         )
-                        rendered.append(obj_id)
+                        rendered.append(child_block.definition_prefix)
                     
-                    template_mapper['{0}-newmember-{1}'.format(block.definition_prefix, name)] = tpl_id
+                    template_mapper['{0}-newmember-{1}'.format(block.definition_prefix, name)] = child_block.definition_prefix
                    
-            elif isinstance(block, ListBlock):
-                obj_id = str(id(block.child_block))
-                tpl_id = 'block-tpl-{0}'.format(obj_id)
-                
-                if obj_id not in rendered:
+            elif isinstance(block, ListBlock):                
+                if block.child_block.definition_prefix not in rendered:
                     member_templates.append(
                         (
-                            tpl_id,
+                            block.child_block.definition_prefix,
                             mark_safe(escape_script(block.render_list_member(block.child_block.get_default(), '__PREFIX__', '')))
                         )
                     )
-                    rendered.append(obj_id)
+                    rendered.append(block.child_block.definition_prefix)
 
-                    template_mapper['{0}-newmember'.format(block.definition_prefix)] = tpl_id
+                    template_mapper['{0}-newmember'.format(block.definition_prefix)] = block.child_block.definition_prefix
 
         
         
