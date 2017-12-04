@@ -13,14 +13,10 @@ class SequenceBlockMixin(object):
 
     def js_initializer(self):
         js_init = super(SequenceBlockMixin, self).js_initializer()
-
         return "Smart" + js_init
 
 
 class ListBlock(SequenceBlockMixin, WagtailListBlock):
-    def html_declarations(self):
-        return ''
-
     @property
     def media(self):
         return forms.Media(js=[static('wagtailadmin/js/blocks/sequence.js'), static('smartstream/js/list.js')])
